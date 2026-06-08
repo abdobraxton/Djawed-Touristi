@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,9 +9,7 @@
 <style>
 :root{
     --primary:#e63946;
-    --secondary:#ffffff;
     --dark:#1f2937;
-    --bg:#f8fafc;
 }
 
 *{
@@ -32,7 +31,7 @@ body{
 .converter{
     width:100%;
     max-width:450px;
-    background:rgba(255,255,255,.98);
+    background:white;
     border-radius:25px;
     padding:30px;
     box-shadow:0 20px 40px rgba(0,0,0,.15);
@@ -48,7 +47,6 @@ h1{
     text-align:center;
     color:var(--dark);
     margin-bottom:10px;
-    font-size:28px;
 }
 
 .rate-box{
@@ -87,23 +85,6 @@ select{
     background:white;
 }
 
-button{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:12px;
-    background:var(--primary);
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.3s;
-}
-
-button:hover{
-    transform:translateY(-2px);
-}
-
 .result{
     margin-top:20px;
     text-align:center;
@@ -136,10 +117,6 @@ button:hover{
         padding:20px;
     }
 
-    h1{
-        font-size:22px;
-    }
-
     .result-value{
         font-size:26px;
     }
@@ -167,10 +144,6 @@ button:hover{
         <option value="tnd">دينار تونسي → يورو</option>
     </select>
 
-    <button onclick="convertCurrency()">
-        تحويل الآن
-    </button>
-
     <div class="result" id="resultBox">
         <div class="result-value" id="result"></div>
         <div class="result-text" id="text"></div>
@@ -187,45 +160,51 @@ button:hover{
 const EUR_TO_TND = 3.36;
 const TND_TO_EUR = 1 / EUR_TO_TND;
 
-function convertCurrency(){
+function convertCurrency() {
 
-    let amount =
-    parseFloat(document.getElementById("amount").value);
+    let amount = parseFloat(
+        document.getElementById("amount").value
+    );
 
-    if(isNaN(amount) || amount <= 0){
-        alert("الرجاء إدخال مبلغ صحيح");
+    if (isNaN(amount) || amount <= 0) {
+        document.getElementById("resultBox").style.display = "none";
         return;
     }
 
-    let type =
-    document.getElementById("type").value;
+    let type = document.getElementById("type").value;
 
     let result;
 
-    if(type === "eur"){
+    if (type === "eur") {
+
         result = amount * EUR_TO_TND;
 
         document.getElementById("result").innerHTML =
-        result.toFixed(2) + " د.ت";
+            result.toFixed(2) + " د.ت";
 
         document.getElementById("text").innerHTML =
-        amount + " يورو";
-    }
+            amount + " يورو";
 
-    else{
+    } else {
 
         result = amount * TND_TO_EUR;
 
         document.getElementById("result").innerHTML =
-        result.toFixed(2) + " €";
+            result.toFixed(2) + " €";
 
         document.getElementById("text").innerHTML =
-        amount + " دينار تونسي";
+            amount + " دينار تونسي";
+
     }
 
-    document.getElementById("resultBox").style.display =
-    "block";
+    document.getElementById("resultBox").style.display = "block";
 }
+
+document.getElementById("amount")
+.addEventListener("input", convertCurrency);
+
+document.getElementById("type")
+.addEventListener("change", convertCurrency);
 
 </script>
 
